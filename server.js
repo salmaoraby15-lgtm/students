@@ -13,10 +13,9 @@ app.get('/', (req, res) => {
 });
 
 // مفاتيح الـ API وقاعدة البيانات
-const API_KEYS = ["AIzaSyBt2ma7t3klkzclyu7liYC-ILmWC0-0ogg"];
-const dbURI = 'mongodb+srv://salmaoraby15_db_user:Salma123456@cluster0.9ninmcl.mongodb.net/studentsDB?retryWrites=true&w=majority';
+const API_KEYS = [process.env.GOOGLE_API_KEY];
 
-mongoose.connect(dbURI)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ الداتابيز متصلة بنجاح"))
     .catch(err => console.error("❌ فشل اتصال الداتابيز:", err));
 
