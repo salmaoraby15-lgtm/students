@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> الموديول الثاني </title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #e0ecff, #d6d7f7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: end;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      max-width: 1300px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      background-color: #f4f6fc;
+      padding: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #d7def7;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 20px;
+    }
+
+    .sidebar {
+      width: 30%;
+      background-color: #e5ecfb;
+      padding: 24px;
+      border-radius: 12px;
+      text-align: end;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      color: #1a3f9d;
+      margin-bottom: 24px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      background-color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .sidebar li.active,
+    .sidebar li:hover {
+      background-color: #2f66e5;
+      color: white;
+    }
+
+    .content {
+      width: 70%;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+    }
+
+    .content h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .text-box {
+      padding: 20px;
+      font-size: 18px;
+      line-height: 1.8;
+      background: #f4f6fc;
+      border-radius: 12px;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .navigation-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #d7def7;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .sidebar,
+      .content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="top-bar">
+      <button class="back-button" onclick="goBack()">العودة إلى الموديولات</button>
+    </div>
+
+    <div class="main-content">
+
+      <div class="content">
+        <h3 id="contentTitle"> مفهوم مشاريع ريادة الأعمال</h3>
+
+        <div id="contentBox" class="text-box">
+تُعرف مشاريع ريادة الأعمال بأنها: أنشطة اقتصادية مبتكرة ينشئها فرد أو مجموعة أفراد بهدف تقديم منتج أو خدمة جديدة أو مطورة، تقوم على الإبداع، وتحمل المخاطرة المحسوبة، واستثمار الفرص المتاحة لتحقيق قيمة مضافة اقتصادية أو اجتماعية.
+وتتميز المشاريع الريادية بأنها:
+•	لا تكرر النماذج التقليدية.
+•	تعتمد على حل مشكلة واقعية أو تلبية حاجة حقيقية.
+•	تقوم على الابتكار والاستباقية لا التقليد.
+        </div>
+
+        <div class="navigation-buttons">
+          <button onclick="navigate(1)">التالي</button>
+          <button onclick="navigate(-1)">السابق</button>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <h2> الموديول الثاني: تطوير المهارات اللازمة لإنتاج المشاريع الريادية </h2>
+
+        <ul id="contentList">
+          <li class="active" data-text="تُعرف مشاريع ريادة الأعمال بأنها: أنشطة اقتصادية مبتكرة ينشئها فرد أو مجموعة أفراد بهدف تقديم منتج أو خدمة جديدة أو مطورة، تقوم على الإبداع، وتحمل المخاطرة المحسوبة، واستثمار الفرص المتاحة لتحقيق قيمة مضافة اقتصادية أو اجتماعية.
+وتتميز المشاريع الريادية بأنها:
+•	لا تكرر النماذج التقليدية.
+•	تعتمد على حل مشكلة واقعية أو تلبية حاجة حقيقية.
+•	تقوم على الابتكار والاستباقية لا التقليد.
+">
+            مفهوم مشاريع ريادة الأعمال </li>
+          <li data-text="1- أهمية مشاريع ريادة الأعمال:
+تسهم المشاريع الريادية في:
+•	دعم الاقتصاد الوطني وخلق فرص عمل.
+•	تقليل البطالة بين الشباب.
+•	تعزيز ثقافة الإبداع والابتكار.
+•	تحويل المعرفة إلى منتجات وخدمات نافعة.
+•	دعم التنمية المستدامة.
+2-أهداف مشاريع ريادة الأعمال:
+تهدف إلى:
+•	تحقيق قيمة اقتصادية أو اجتماعية.
+•	استثمار الفرص السوقية غير المستغلة.
+•	تقديم حلول مبتكرة لمشكلات قائمة.
+•	بناء شخصية ريادية مستقلة ومنتجة.
+">
+            أهمية وأهداف مشاريع ريادة الأعمال </li>
+          <li data-text="تتميز المشاريع الريادية بعدة خصائص رئيسية، أهمها:
+•	الابتكار والتجديد.
+•	تحمل المخاطرة المحسوبة.
+•	المرونة وقابلية التكيف.
+•	الاستباقية والمبادرة.
+•	النمو والتوسع المستقبلي.
+•	الاعتماد على المعرفة والتقنية.
+">
+            خصائص مشاريع ريادة الأعمال </li>
+          <li data-text="يمكن تحديد أبعاد المشاريع الريادية في أربعة أبعاد أساسية:
+1-	البعد الابتكاري: يرتبط بتقديم فكرة جديدة أو أسلوب جديد في تقديم الخدمة أو المنتج.
+2-	بعد المخاطرة: ويتعلق بقدرة رائد الأعمال على اتخاذ قرارات في ظل عدم التأكد.
+3-	البعد الاستباقي: ويعني المبادرة بدخول السوق قبل المنافسين.
+4-	البعد التنافسي: ويتجسد في السعي لتحقيق ميزة تنافسية مستدامة.
+">
+            أبعاد المشاريع الريادية </li>
+
+          <li data-text="تشمل مهارات إنتاج المشاريع الريادية مجموعة من المهارات المتكاملة، من أهمها:
+1- مهارات توليد الأفكار:
+•	اكتشاف المشكلات.
+•	التفكير الإبداعي.
+•	تحليل الفرص.
+2- مهارات التخطيط:
+•	إعداد نموذج العمل (Business Model).
+•	كتابة خطة المشروع.
+•	تحديد الموارد والتكاليف.
+3-مهارات التنفيذ:
+•	إدارة الوقت.
+•	إدارة الفريق.
+•	اتخاذ القرار.
+4- مهارات التسويق:
+•	دراسة السوق.
+•	تحديد الفئة المستهدفة.
+•	الترويج للمنتج.
+5- مهارات التقويم والتطوير:
+•	تحليل التغذية الراجعة.
+•	تحسين المنتج.
+•	التطوير المستمر.
+">
+            مهارات إنتاج المشاريع الريادية </li>
+          <li data-text="تواجه المشاريع الريادية عدداً من التحديات، من أبرزها:
+•	ضعف التمويل في المراحل الأولى.
+•	نقص الخبرة الإدارية.
+•	الخوف من الفشل والمخاطرة.
+•	صعوبة دراسة السوق بدقة.
+•	المنافسة الشديدة.
+•	المعوقات التنظيمية والتشريعية.
+•	ضعف التسويق والوصول للعملاء.
+">
+            تحديات مشروعات ريادة الأعمال </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const listItems = document.querySelectorAll('#contentList li');
+    const contentBox = document.getElementById('contentBox');
+    const contentTitle = document.getElementById('contentTitle');
+    let currentIndex = 0;
+
+    listItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        updateContent(index);
+      });
+    });
+
+    function updateContent(index) {
+      listItems[currentIndex].classList.remove('active');
+      currentIndex = index;
+      listItems[currentIndex].classList.add('active');
+
+      const selected = listItems[currentIndex];
+      contentTitle.textContent = selected.textContent;
+      contentBox.textContent = selected.getAttribute('data-text');
+    }
+
+    function navigate(direction) {
+      let newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < listItems.length) {
+        updateContent(newIndex);
+      }
+    }
+
+    function goBack() {
+      window.location.href = 'm2-content.html';
+    }
+  </script>
+
+</body>
+
+</html>

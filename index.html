@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - بيئة التعلم الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    
+    <style>
+        body {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #f4f7f6 0%, #e1e2e1 100%);
+            font-family: 'Tajawal', sans-serif; margin: 0; overflow: hidden;
+        }
+
+        .auth-container {
+            background: white; width: 400px; padding: 40px;
+            border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center; border-top: 6px solid #4a148c;
+        }
+
+        .auth-container h2 { color: #4a148c; font-weight: 700; margin-bottom: 10px; }
+        .auth-container p { color: #777; font-size: 14px; margin-bottom: 30px; }
+
+        .form-control {
+            border-radius: 10px; padding: 12px; border: 1px solid #ddd;
+            margin-bottom: 15px; font-size: 14px;
+        }
+
+        .btn-auth {
+            background: #4a148c; color: white; border: none; width: 100%;
+            padding: 12px; border-radius: 10px; font-weight: bold;
+            transition: 0.3s; cursor: pointer;
+        }
+
+        .btn-auth:hover { background: #311b92; transform: translateY(-2px); }
+
+        .toggle-link {
+            margin-top: 20px; font-size: 13px; color: #666;
+        }
+
+        .toggle-link a {
+            color: #4a148c; text-decoration: none; font-weight: bold;
+        }
+
+        /* تأثيرات الانتقال */
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div id="loginForm">
+            <h2>مرحبًا بك</h2>
+            <p>سجل دخولك للبدء في رحلة التعلم</p>
+            <input type="text" id="loginUser" class="form-control" placeholder="كود الطالب">
+            <input type="password" id="loginPass" class="form-control" placeholder="كلمة المرور">
+            <button class="btn-auth" onclick="handleLogin()">دخول</button>
+            <div class="toggle-link">
+                ليس لديك حساب؟ <a href="javascript:void(0)" onclick="toggleForms()">أنشيء حساباً الآن</a>
+            </div>
+        </div>
+
+        <div id="registerForm" class="hidden">
+            <h2>إنشاء حساب جديد</h2>
+            <p>انضمي لبيئة التعلم الشخصية</p>
+            <input type="text" id="regName" class="form-control" placeholder="اسم المستخدم">
+            <input type="text" id="regUser" class="form-control" placeholder="كود المستخدم (ID)">
+            <input type="password" id="regPass" class="form-control" placeholder="كلمة المرور">
+            <button class="btn-auth" style="background: #28a745;" onclick="handleRegister()">إنشاء الحساب</button>
+            <div class="toggle-link">
+                لديكِ حساب بالفعل؟ <a href="javascript:void(0)" onclick="toggleForms()">تسجيل الدخول</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // التبديل بين الفورمين
+        function toggleForms() {
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('registerForm').classList.toggle('hidden');
+        }
+
+        // وظيفة تسجيل الدخول (الربط مع السيرفر)
+        async function handleLogin() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+
+            if(!user || !pass) return alert("يرجى ملء كافة الخانات");
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ studentID: user, password: pass })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem("studentID", data.student.studentID);
+                    localStorage.setItem("studentName", data.student.name);
+                    window.location.href = "digital_home.html";
+                } else {
+                    alert("بيانات الدخول غير صحيحة");
+                }
+            } catch (err) { alert("تأكدي من تشغيل السيرفر"); }
+        }
+
+        // وظيفة إنشاء الحساب (الربط مع السيرفر)
+        async function handleRegister() {
+            const name = document.getElementById('regName').value;
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+
+            if(!name || !user || !pass) return alert("يرجى ملء كافة البيانات");
+
+            try {
+                const response = await fetch('http://localhost:3000/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, studentID: user, password: pass })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    alert("تم إنشاء الحساب بنجاح! يمكنكِ الآن الدخول.");
+                    toggleForms(); // العودة لصفحة الدخول
+                } else {
+                    alert("اسم المستخدم موجود مسبقاً");
+                }
+            } catch (err) { alert("خطأ في الاتصال بالسيرفر"); }
+        }
+    </script>
+</body>
+</html>

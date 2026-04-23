@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> الأنشطة </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/main.css">
+</head>
+
+<body>
+
+    <header class="header font">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="logoutBtn">تسجيل خروج </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="call.html">اتصل بنا </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Help.html">المساعدة </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Help.html">اثرائي </a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                aria-expanded="false">القياس البعدي</a>
+           <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="scale.html"> مقياس الانخراط</a></li>
+                </ul>
+        </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false">المحتويات</a>
+                <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="First M.html">الموديول الأول </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="Second M.html"> الموديول الثاني</a></li>
+                </ul>
+            </li>
+             <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                aria-expanded="false">القياس القبلي</a>
+             <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="scale.html"> مقياس الانخراط</a></li>
+                </ul>
+        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Directions.html">التعليمات</a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Goals.html">الأهداف</a>
+            </li>
+            <li>
+                <a class="nav-link link-" href="digital_home.html">الرئيسة</a>
+
+            </li>
+        </ul>
+    </header>
+
+    <nav>
+        <p class="m-name">الموديول الأول: المعارف والمفاهيم الأساسية لإنتاج مشاريع ريادة الأعمال</p>
+
+        <div class="nav-links">
+            <a href="m-posttest.html">الاختبار البعدي</a>
+            <a href="m-activity.html">الأنشطة</a>
+            <a href="m-content.html">المحتويات </a>
+            <a href="m-directions.html">التعليمات</a>
+            <a href="M-goals.html">الأهداف</a>
+            <a href="First M.html">المقدمة</a>
+        </div>
+    </nav>
+
+    <section class="section-first font">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-4 image3 font">
+                    <img src="pic/p5.PNG">
+                </div>
+                <div class="col-lg-8">
+                    <div class="par1 M-goals M-pretest">
+                        <h3 class="bold">:أنشطة الموديول </h3>
+                        <div class="par3">
+                            <p>:
+                                نشاط
+                                1</p>
+                            <p>
+                                قم  بالبحث عن خطوات مشاريع ريادة الأعمال، ثم قم بتلخيصها  باستخدام تطبيق ميكروسوفت وورد مع ذكر المصادر التي رجعت إليها
+                            </p>
+                            <p class="par4">تسليم النشاط</p>
+                        </div>
+                        <form>
+                            <input type="file" name="file" id="file" placeholder="اختر ملف">
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="JS/bootstrap.bundle.min.js"></script>
+    <script src="JS/maiin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutBtn = document.getElementById("logoutBtn");
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("loggedIn");
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقياس الذات الإبداعية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/main.css">
+    
+    <style>
+        :root { --main-color: #4a148c; --accent-color: #ffc107; --bg-soft: #f4f0f9; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #fdfbff; color: #333; margin: 0; padding: 0; }
+        
+        /* النافبار */
+        .header-nav { background: white; border-bottom: 2px solid var(--main-color); padding: 5px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.05); direction: rtl; }
+        .header-nav .nav { flex-direction: row !important; }
+        .header-nav .nav-link { color: var(--main-color) !important; font-weight: bold; transition: 0.3s; padding: 10px 12px; font-size: 1.1rem; }
+        .header-nav .nav-link:hover { background: var(--bg-soft); border-radius: 8px; }
+        .dropdown-menu { text-align: right; border-radius: 10px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); right: 0 !important; left: auto !important; }
+        .dropdown-item:hover { background-color: var(--main-color); color: white; }
+
+        /* منطقة الاختبار */
+        .quiz-wrapper { max-width: 950px; margin: 40px auto; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(74, 20, 140, 0.08); overflow: hidden; display: none; border-top: 5px solid var(--main-color); }
+        .quiz-header { background: var(--main-color); color: white; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .timer-box { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); padding: 8px 25px; border-radius: 12px; font-weight: bold; font-size: 1.4rem; color: var(--accent-color); }
+        
+        /* تحسين منطقة السؤال والصورة */
+        .q-image-container { width: 100%; text-align: center; margin-bottom: 25px; display: none; }
+/* التنسيق الجديد لصورة السؤال */
+.q-image-style {
+    max-height: 250px;    /* تحديد أقصى ارتفاع للصورة */
+    width: auto;         /* جعل العرض يتناسب تلقائياً مع الارتفاع */
+    max-width: 100%;     /* لضمان عدم خروجها عن حدود الشاشة في الموبايل */
+    display: block;      /* لتمكين التوسيط */
+    margin: 0 auto;      /* توسيط الصورة في منتصف الحاوية */
+    border: 2px solid var(--bg-soft); 
+    border-radius: 15px; 
+    padding: 5px; 
+    background: white; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.q-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: var(--main-color);
+    line-height: 1.8;
+    border-right: 5px solid var(--accent-color);
+    padding-right: 20px;
+
+    /* إعدادات الاتجاه والمحاذاة */
+    direction: rtl;            /* إجبار الاتجاه من اليمين */
+    text-align: justify;       /* توزيع الفقرة الطويلة بالتساوي من الطرفين */
+    text-align-last: right;    /* أهم سطر: يجبر آخر سطر (أو السؤال القصير) يبدأ من اليمين */
+    unicode-bidi: isolate;     /* يمنع لخبطة الاتجاه بسبب الأقواس أو الرموز */
+    width: 100%;               /* التأكد من استهلاك عرض الحاوية بالكامل لتبدأ المحاذاة من الحافة */
+}
+        /* تحسين شبكة الاختيارات */
+ /* 1. حاوية الاختيارات: نضمن أنها تملأ عرض الصفحة بالكامل */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.opt-card {
+    border: 2px solid #eee;
+    border-radius: 15px;
+    padding: 18px 25px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    background: #fff;
+
+    /* 👇 ده أهم تعديل */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    font-size: 1.1rem;
+}
+
+.opt-card:hover {
+    border-color: var(--main-color);
+    transform: translateY(-2px);
+}
+
+.opt-card.selected {
+    border-color: var(--main-color);
+    background: #f3e5f5;
+}
+
+/* 3. منطقة السؤال: نلغي التوسيط الأفقي الذي يصغر العناصر */
+.question-area { 
+    padding: 40px; 
+    background: #fff; 
+    display: block; /* تغيير من flex إلى block لضمان تمدد العناصر عرضياً */
+    direction: rtl;
+}
+       
+        
+        .quiz-footer { padding: 20px 40px; background: var(--bg-soft); border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .btn-next { background: var(--main-color); color: white; border: none; padding: 12px 45px; border-radius: 10px; font-weight: bold; }
+        .progress-container { height: 10px; background: #e0e0e0; width: 100%; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-color), #ff9800); width: 0%; transition: 0.6s; }
+        .instruction-card { border: none; border-radius: 20px; border-right: 8px solid var(--main-color); }
+        /* 1. الحاوية الأساسية لضمان عدم ضغط كارت السؤال */
+    .exam-layout-wrapper {
+        display: flex;
+        gap: 30px;
+        max-width: 1300px;
+        margin: 30px auto;
+        align-items: flex-start;
+        direction: rtl;
+    }
+
+    /* 2. كارت السؤال (يأخذ المساحة الكبرى) */
+    .quiz-container-main {
+        flex: 1; /* يمتد ليأخذ كل المساحة المتاحة */
+        min-width: 0; /* يمنع الانكماش */
+    }
+
+    /* 3. اللوحة الجانبية (ثابتة في اليمين) */
+    .questions-sidebar-board {
+        width: 260px; /* عرض ثابت بسيط لا يؤثر على السؤال */
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border: 1px solid #eee;
+        position: sticky;
+        top: 20px;
+    }
+
+    .sidebar-title {
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--main-color);
+        margin-bottom: 15px;
+        text-align: center;
+        border-bottom: 1px solid var(--bg-soft);
+        padding-bottom: 10px;
+    }
+
+    /* شبكة المربعات */
+    .map-grid-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+
+    .q-box-item {
+        aspect-ratio: 1;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: 0.2s;
+        background: #fff;
+        position: relative;
+    }
+
+    /* التلوين البرقوقي عند الحل */
+    .q-box-item.is-solved {
+        background-color: #8e44ad !important;
+        color: white;
+        border-color: #8e44ad;
+    }
+
+    /* العلم الصغير فوق المربع */
+    .q-box-item.is-flagged::after {
+        content: "\f024";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        color: #e74c3c;
+        font-size: 10px;
+        background: white;
+        border-radius: 50%;
+        padding: 2px;
+    }
+
+    .q-box-item.is-active {
+        border: 2px solid var(--main-color);
+        box-shadow: 0 0 5px rgba(74, 20, 140, 0.3);
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="header-nav shadow-sm">
+        <div class="container-fluid">
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="digital_home.html">الرئيسة</a></li>
+                <li class="nav-item"><a class="nav-link" href="Goals.html">الأهداف</a></li>
+                <li class="nav-item"><a class="nav-link" href="Directions.html">التعليمات</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">القياس القبلي</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي</a></li>
+                        <li><a class="dropdown-item" href="standard_one.html">مقياس الذات الإبداعية</a></li>
+                        <li><a class="dropdown-item" href="#">مقياس النهوض الأكاديمي</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">المحتويات</a>
+                    <ul class="dropdown-menu" id="contentsMenu"></ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">القياس البعدي</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">الاختبار التحصيلي</a></li>
+                        <li><a class="dropdown-item" href="#">مقياس الذات الإبداعية</a></li>
+                        <li><a class="dropdown-item" href="#">مقياس النهوض الأكاديمي</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">لوحة معلومات المتعلم</a></li>
+                <li class="nav-item"><a class="nav-link" href="watch.html">الساعة الذكية</a></li>
+                <li class="nav-item"><a class="nav-link" href="Help.html">المساعدة</a></li>
+                <li class="nav-item"><a class="nav-link" href="call.html">اتصل بنا</a></li>
+                <li class="nav-item"><a class="nav-link text-danger" href="#" id="logoutBtn"><i class="fa fa-sign-out-alt ms-1"></i> خروج</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="instructionsSection" class="container mt-5">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <div class="instruction-card card p-5 bg-white shadow-sm text-right">
+                    <h2 class="bold" style="color: var(--main-color);">مقياس الذات الإبداعية</h2>
+                    <br>
+                    <div class="alert d-flex align-items-center gap-3" style="background: var(--bg-soft); color: var(--main-color); border: none;">
+                        <i class="fa fa-info-circle fa-2x"></i>
+                        <div><b>عزيزي الطالب:</b>	يهدف هذا المقياس إلى تحديد مدى فاعلية ذاتك الابداعية. <br> رجاء أجب على جميع العبارات.</div>
+                    </div>
+                    <ul class="list-unstyled mt-4" style="font-size: 1.1rem; line-height: 2; padding-right: 0;">
+                        <li><i class="fa fa-check-circle text-success ml-2"></i> عدد العبارات: <b>40 عبارة</b></li>
+                        <li><i class="fa fa-clock text-warning ml-2"></i> الزمن المتاح: <b>40 دقيقة</b></li>
+                        <li><i class="fa fa-star text-primary ml-2"></i> الدرجة الكلية: <b>120 درجة</b></li>
+                    </ul>
+                    <button onclick="startExam()" class="btn btn-start mt-4 shadow w-100" style="background: var(--main-color); color:white; padding:15px; border-radius:12px; font-weight: bold;">ابدأ الرحلة الآن <i class="fa fa-rocket ms-2"></i></button>
+                </div>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+                <img src="pic/act.jpg" class="img-fluid rounded-circle shadow-lg p-3 bg-white" style="border: 2px dashed var(--main-color);" alt="Exam Image">
+            </div>
+        </div>
+    </section>
+
+    <div id="quizWrapper" class="container-fluid mt-4" style="display:none;">
+    <div class="exam-layout-wrapper">
+        
+        <aside class="questions-sidebar-board">
+            <div class="sidebar-title">خريطة الأسئلة</div>
+            <div id="questionsMap" class="map-grid-container">
+                </div>
+        </aside>
+
+        <div class="quiz-container-main">
+            <div class="quiz-wrapper" style="display:block; margin:0; max-width: 100%;">
+                <div class="quiz-header">
+                    <div class="timer-box shadow-sm" id="timerDisplay">40:00</div>
+                    <div class="h5 mb-0 fw-bold">السؤال <span id="currentQNum">1</span> / 40</div>
+                </div>
+                <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
+                
+                <div class="question-area">
+                    <div id="qImageContainer" class="q-image-container"><img id="qImg" src="" class="q-image-style"></div>
+                    <div id="qText" class="q-text">جاري تحميل السؤال...</div>
+                    <div id="optionsBox" class="options-grid"></div>
+                </div>
+
+                <div class="quiz-footer">
+                    <button onclick="toggleFlag()" class="btn btn-outline-danger border-2 px-3 fw-bold">
+                        <i class="fa fa-flag"></i> تعليم السؤال
+                    </button>
+                    <button id="nextBtn" onclick="handleNext()" class="btn-next" >التالي</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="alreadySolvedSection" style="display:none;" class="container mt-5">
+    <div class="card text-center shadow p-5" style="border-radius:20px; border-top:6px solid #4a148c;">
+        
+        <div style="font-size:60px; color:#4a148c;">
+            <i class="fa fa-check-circle"></i>
+        </div>
+
+        <h2 class="mt-4 fw-bold" style="color:#4a148c;">
+            لقد تم تسليم الإجابات مسبقًا
+        </h2>
+
+        <p class="mt-3 fs-5">
+            درجتك المحفوظة هي: 
+            <b id="savedScore">--</b>
+        </p>
+
+        <div class="alert mt-4" style="background:#d1ecf1; color:#0c5460; border-radius:12px;">
+            لا يمكنك إعادة حل الاختبار مرة أخرى.
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+    <script src="JS/bootstrap.bundle.min.js"></script>
+    <script src="final_standard_one.js"></script>
+ <script>
+let currentQ = 0;
+let score = 0;
+let timeLeft = 40 * 60;
+let timerId = null;
+
+let userAnswers = new Array(40).fill(null);
+let flaggedQuestions = new Set();
+
+/* =========================
+   خريطة الأسئلة
+========================= */
+function renderMap() {
+    const map = document.getElementById('questionsMap');
+    if (!map) return;
+
+    map.innerHTML = '';
+
+    for (let i = 0; i < 40; i++) {
+        const box = document.createElement('div');
+        box.className = 'q-box-item';
+
+        if (i === currentQ) box.classList.add('is-active');
+        if (userAnswers[i] !== null) box.classList.add('is-solved');
+        if (flaggedQuestions.has(i)) box.classList.add('is-flagged');
+
+        box.innerText = i + 1;
+        box.onclick = () => {
+            currentQ = i;
+            showQuestion();
+        };
+
+        map.appendChild(box);
+    }
+}
+
+/* =========================
+   تحميل بيانات الطالب
+========================= */
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const sID = localStorage.getItem("studentID");
+    if (!sID) return;
+
+    try {
+        const res = await fetch(`http://localhost:3000/api/student-data/${sID}`);
+        const student = await res.json();
+
+       if (student.preCreativityScale && student.preCreativityScale > 0) {
+
+    document.getElementById("instructionsSection").style.display = "none";
+    document.getElementById("quizWrapper").style.display = "none";
+
+    const solved = document.getElementById("alreadySolvedSection");
+    if (solved) {
+        solved.style.display = "block";
+        document.getElementById("savedScore").innerText = student.preCreativityScale;
+    }
+
+    // ❌ امنعي أي محاولة تشغيل
+    window.startExam = function () {
+        alert("لقد قمت بحل المقياس مسبقًا ولا يمكن إعادته");
+    };
+}
+    } catch (e) {
+        console.error(e);
+    }
+});
+
+/* =========================
+   بدء الامتحان
+========================= */
+function startExam() {
+    document.getElementById('instructionsSection').style.display = 'none';
+    document.getElementById('quizWrapper').style.display = 'block';
+
+    showQuestion();
+    startTimer();
+}
+
+/* =========================
+   Timer
+========================= */
+function startTimer() {
+    timerId = setInterval(() => {
+
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+
+        document.getElementById('timerDisplay').innerText =
+            `${mins}:${secs < 10 ? '0' + secs : secs}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerId);
+            finishExam();
+        }
+
+        timeLeft--;
+    }, 1000);
+}
+
+/* =========================
+   عرض السؤال
+========================= */
+function showQuestion() {
+
+    const qData = finalExam[currentQ];
+
+    document.getElementById('qText').innerText = qData.q;
+    document.getElementById('currentQNum').innerText = currentQ + 1;
+
+    document.getElementById('progressFill').style.width =
+        ((currentQ + 1) / 40) * 100 + '%';
+
+    const nextBtn = document.getElementById('nextBtn');
+
+    nextBtn.innerHTML = (currentQ === 39)
+        ? "إنهاء وحفظ"
+        : "التالي";
+
+    const box = document.getElementById('optionsBox');
+    box.innerHTML = '';
+
+    // 🔥 هنا أهم تعديل (3 اختيارات بقيم حقيقية)
+   const scaleMap = [
+    { text: "موافق", value: 3 },
+    { text: "غير متأكد", value: 2 },
+    { text: "غير موافق", value: 1 }
+    ];
+
+    scaleMap.forEach((opt) => {
+
+        const div = document.createElement('div');
+        div.className = 'opt-card';
+
+        if (userAnswers[currentQ] === opt.value) {
+            div.classList.add('selected');
+        }
+
+        div.innerHTML = `<div>${opt.text}</div>`;
+
+        div.onclick = () => {
+            userAnswers[currentQ] = opt.value;
+            renderMap();
+            showQuestion();
+        };
+
+        box.appendChild(div);
+    });
+
+    renderMap();
+}
+
+// 5. دالة العلم
+function toggleFlag() {
+    if (flaggedQuestions.has(currentQ)) flaggedQuestions.delete(currentQ);
+    else flaggedQuestions.add(currentQ);
+    renderMap();
+}
+
+// 6. دالة الزر "التالي"
+function handleNext() {
+    if (currentQ < 39) { 
+        currentQ++; 
+        showQuestion(); 
+        renderMap(); 
+        window.scrollTo(0, 0);
+    } else { 
+        checkCompletionAndFinish();
+    }
+}
+
+// التحقق من الحل الكامل
+function checkCompletionAndFinish() {
+    const unanswered = [];
+    userAnswers.forEach((ans, index) => {
+        if (ans === null) unanswered.push(index + 1);
+    });
+
+    if (unanswered.length > 0) {
+        alert(`عذراً، لا يمكنك تسليم المقياس وهناك أسئلة لم يتم حلها.\nالأسئلة المتبقية هي: ${unanswered.join(", ")}`);
+        currentQ = unanswered[0] - 1;
+        showQuestion();
+    } else {
+        finishExam(); 
+    }
+}
+
+/* =========================
+   إنهاء الامتحان
+========================= */
+async function finishExam() {
+
+    clearInterval(timerId);
+
+    score = 0;
+
+    userAnswers.forEach((ans, idx) => {
+        if (ans !== null) {
+            score += ans; // 🔥 مجموع القيم بدل صح/غلط
+        }
+    });
+
+    const sID = localStorage.getItem("studentID");
+
+    if (!sID) return;
+
+    alert(`درجتك: ${score} / 120`);
+
+    try {
+
+        await fetch("http://localhost:3000/api/update-dashboard", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                studentID: sID,
+                updates: {
+                    preCreativityScale: score
+                }
+            })
+        });
+
+        window.location.href = "dashboard.html";
+
+    } catch (err) {
+        console.log(err);
+        window.location.href = "dashboard.html";
+    }
+}
+    </script>
+</body>
+</html>

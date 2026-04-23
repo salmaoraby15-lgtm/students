@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموديول الأول - مهارات التعلم التوليدي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+
+    <style>
+        html, body { 
+            height: 100%; margin: 0; padding: 0; overflow: hidden; 
+            background-color: #f4f7f6; font-family: 'Tajawal', sans-serif; 
+        }
+        body { display: flex; flex-direction: column; padding-top: 155px; padding-bottom: 50px; }
+        .header-nav { background: #4a148c; padding: 15px 0; z-index: 2000; position: fixed; top: 0; width: 100%; height: 75px; }
+        .header-nav .container {max-width: 100% !important;width: 100%;padding-left: 15px;padding-right: 15px;}
+        .nav-link { color: #fff !important; font-weight: bold; font-size: 19px; padding: 6px 15px !important; cursor: pointer; }
+         .dropdown-menu { text-align: right; border-radius: 10px; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); right: 0 !important; left: auto !important; }
+        .dropdown-item:hover { background-color: #5d1ea9; color: #fefefe; }
+
+        .module-sub-nav { 
+            position: fixed; top: 75px; right: 0; left: 0; background: #ffffff; 
+            padding: 10px 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            border-bottom: 1px solid #eee; height: 65px;
+        }
+        .module-sub-nav .nav-link { color: #4a148c !important; border-radius: 20px; cursor: pointer; border: 1px solid transparent; }
+        .module-sub-nav .nav-link.active { background: #f3e5f5; border: 1px solid #4a148c; }
+        .content-box { 
+            background: white; border-radius: 15px; padding: 30px; border-top: 5px solid #4a148c; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); height: calc(100vh - 230px); overflow-y: auto; 
+        }
+        .ai-toggle { position: fixed; bottom: 70px; left: 25px; width: 60px; height: 60px; background: #4a148c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .chat-window { position: fixed; bottom: 140px; left: 25px; width: 340px; height: 450px; background: white; border-radius: 15px; display: none; flex-direction: column; z-index: 3000; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 1px solid #4a148c; }
+        .chat-header { background: #4a148c; color: white; padding: 12px; border-radius: 14px 14px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px; }
+        .bot-msg { background: #4a148c; color: white; padding: 8px 12px; border-radius: 15px 15px 0 15px; align-self: flex-start; max-width: 85%; font-size: 13px; }
+        .user-msg { background: #e1bee7; color: #4a148c; padding: 8px 12px; border-radius: 15px 15px 15px 0; align-self: flex-end; max-width: 85%; font-size: 13px; }
+        .footer { background: #222; color: #ccc; padding: 10px 0; text-align: center; font-size: 13px; position: fixed; bottom: 0; width: 100%; height: 40px; z-index: 2500; }
+        .question-card { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-right: 5px solid #4a148c; }
+        .btn-submit { background-color: #6a1b9a; color: white; border: none; padding: 10px 30px; border-radius: 25px; font-weight: bold; transition: 0.3s; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav class="header-nav">
+            <div class="container">
+                <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item"><a class="nav-link" href="digital_home.html">الرئيسة</a></li>
+                <li class="nav-item"><a class="nav-link" href="Goals.html">الأهداف</a></li>
+                <li class="nav-item"><a class="nav-link" href="Directions.html">التعليمات</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">القياس القبلي</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي </a></li>
+                        <li><a class="dropdown-item" href="standard_one.html">مقياس الذات الإبداعية </a></li>
+                         <li><a class="dropdown-item" href="#">مقياس النهوض الأكاديمي </a></li>
+                    </ul>
+                </li>
+                 <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">المحتويات</a>
+    <ul class="dropdown-menu" id="contentsMenu">
+        </ul>
+</li>
+                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">القياس البعدي</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">الاختبار التحصيلي </a></li>
+                        <li><a class="dropdown-item" href="#">مقياس الذات الإبداعية </a></li>
+                         <li><a class="dropdown-item" href="#">مقياس النهوض الأكاديمي </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">لوحة معلومات المتعلم</a></li>
+                <li class="nav-item"><a class="nav-link" href="watch.html">الساعة الذكية</a></li>
+                <li class="nav-item"><a class="nav-link" href="Help.html">المساعدة</a></li>
+                <li class="nav-item"><a class="nav-link" href="call.html">اتصل بنا</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" id="logoutBtn">خروج</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <nav class="module-sub-nav">
+        <div class="container d-flex justify-content-center flex-wrap">
+            <a class="nav-link active" onclick="showTab('intro', this)">مقدمة</a>
+            <a class="nav-link" onclick="showTab('objectives', this)">الأهداف</a>
+            <a class="nav-link" onclick="showTab('instructions', this)">التعليمات</a>
+            <a class="nav-link" onclick="showTab('pretest', this)">الاختبار القبلي</a>
+            <a class="nav-link" onclick="showTab('content', this)">المحتوى</a>
+            <a class="nav-link" onclick="showTab('activities', this)">الأنشطة</a>
+            <a class="nav-link" onclick="showTab('posttest', this)">الاختبار البعدي</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="content-box" id="mainArea">
+            <div class="text-center py-5">
+                <h3 style="color:#4a148c">الموديول الأول: مهارات التعلم التوليدي</h3>
+                <p class="lead">يرجى اختيار القسم المطلوب لبدء الدراسة.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center" style="border-radius: 20px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div class="modal-body p-5">
+                    <div class="mb-3"><i class="fas fa-award fa-4x" style="color: #4a148c;"></i></div>
+                    <h3 style="color: #4a148c; font-weight: bold;" id="modalTitle">أحسنت!</h3>
+                    <p class="lead" id="modalSubTitle">لقد أتممت الاختبار بنجاح.</p>
+                    <div class="mt-4 p-3" style="background: #f3e5f5; border-radius: 15px;">
+                        <span style="font-size: 1.2rem; color: #4a148c;">درجتك هي: </span>
+                        <h2 style="display: inline-block; margin: 0; color: #4a148c; font-weight: bold;" id="modalScoreText">0</h2>
+                    </div>
+                    <button type="button" class="btn btn-submit mt-4" id="modalActionBtn" data-bs-dismiss="modal">بدء الدراسة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-window" id="chatWin">
+        <div class="chat-header"><span><i class="fa fa-robot me-2"></i>المساعد الذكي</span><i class="fa fa-times" onclick="toggleChat()" style="cursor:pointer"></i></div>
+        <div class="chat-messages" id="chatMsgs"><div class="bot-msg">أهلاً بك .. أنا جاهز لأي استفسار</div></div>
+        <div class="p-2 border-top d-flex gap-2">
+            <input type="text" id="chatInput" class="form-control" placeholder="اسألي المساعد..." onkeypress="if(event.key==='Enter') sendChat()">
+            <button class="btn text-white" style="background:#4a148c" onclick="sendChat()"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <div class="ai-toggle" onclick="toggleChat()"><i class="fa fa-comment-dots"></i></div>
+
+    <footer class="footer">جميع الحقوق محفوظة للباحثتين © 2026</footer>
+
+    <script src="JS/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const menu = document.getElementById("contentsMenu");
+    const studentData = JSON.parse(localStorage.getItem("studentData"));
+    
+    const modules = [
+        { id: 1, name: "الموديول الأول" },
+        { id: 2, name: "الموديول الثاني" },
+        // ... بقية الموديولات
+    ];
+
+    let html = "";
+    modules.forEach((mod, index) => {
+        let isLocked = false;
+        if (index > 0) {
+            const prevMod = studentData?.modulesData?.[index - 1];
+            if (!prevMod || !prevMod.postScore || prevMod.postScore === 0) {
+                isLocked = true;
+            }
+        }
+
+        if (isLocked) {
+            html += `<li><a class="dropdown-item text-muted" style="cursor:not-allowed">
+                        <i class="fa fa-lock me-2"></i> ${mod.name} (مغلق)
+                     </a></li>`;
+        } else {
+            html += `<li><a class="dropdown-item" href="module_view.html?id=${mod.id}">
+                        <i class="fa fa-lock-open me-2 text-success"></i> ${mod.name}
+                     </a></li>`;
+        }
+    });
+    menu.innerHTML = html;
+});
+    let hasTakenPretest = false;
+    const currentModuleIndex = 0; // الموديول الأول
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        let sID = localStorage.getItem("studentID");
+        if(!sID) return;
+
+        // محاولة جلب أحدث بيانات عند تحميل الصفحة
+        try {
+            const response = await fetch(`http://localhost:3000/api/student-data/${sID}`);
+            const data = await response.json();
+            if (data.success) {
+                localStorage.setItem("studentData", JSON.stringify(data.student));
+                checkPretestStatus(); // تحديث الحالة فوراً
+            }
+        } catch (e) { console.log("Offline mode"); checkPretestStatus(); }
+
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.clear();
+                window.location.href = "index.html";
+            });
+        }
+    });
+
+    // دالة مخصصة لفحص هل الطالب حل قبل كدة ولا لأ
+    function checkPretestStatus() {
+        const studentData = JSON.parse(localStorage.getItem("studentData"));
+        const score = studentData?.modulesData?.[currentModuleIndex]?.preScore;
+        // لو الدرجة رقم (0 أو أكثر) وليس null أو undefined
+        if (score !== null && score !== undefined && score !== "") {
+            hasTakenPretest = true;
+        } else {
+            hasTakenPretest = false;
+        }
+    }
+
+    function showTab(type, el) {
+        const area = document.getElementById('mainArea');
+        
+        // أهم خطوة: تحديث الحالة قبل عرض أي تاب
+        checkPretestStatus();
+
+        const lockedTabs = ['content', 'activities', 'posttest'];
+        
+        if (lockedTabs.includes(type) && !hasTakenPretest) {
+            area.innerHTML = `
+                <div class="text-center py-5">
+                    <i class="fas fa-lock fa-3x mb-3" style="color: #ccc;"></i>
+                    <h4>القسم مغلق</h4>
+                    <p>يجب إنهاء الاختبار القبلي أولاً لفتح محتويات الموديول.</p>
+                    <button class="btn btn-submit" onclick="showTab('pretest', document.querySelector('a[onclick*=\\'pretest\\']'))">الذهاب للاختبار</button>
+                </div>`;
+            return;
+        }
+
+        document.querySelectorAll('.module-sub-nav .nav-link').forEach(l => l.classList.remove('active'));
+        if(el) el.classList.add('active');
+        
+        if (type === 'pretest') { 
+            // تشييك نهائي داخل تاب الاختبار
+            if (hasTakenPretest) {
+                const studentData = JSON.parse(localStorage.getItem("studentData"));
+                const score = studentData.modulesData[currentModuleIndex].preScore;
+                area.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-check-circle fa-4x mb-3" style="color: #4a148c;"></i>
+                        <h4 style="color: #4a148c; font-weight: bold;">لقد تم تسليم الإجابات مسبقاً</h4>
+                        <p class="lead">درجتك المحفوظة هي: ${score} / 2</p>
+                        <div class="alert alert-info d-inline-block">لا يمكن إعادة حل الاختبار مرة أخرى.</div><br>
+                        <button class="btn btn-submit mt-3" onclick="showTab('content', document.querySelector('a[onclick*=\\'content\\']'))">الانتقال للمحتوى</button>
+                    </div>`;
+            } else {
+                renderPretest(); 
+            }
+        } 
+        else if (type === 'posttest') { renderPosttest(); }
+        else { 
+            area.innerHTML = `<h4>${el ? el.innerText : 'المحتوى'}</h4><p class="mt-4">محتوى ${el ? el.innerText : 'المحتوى'} متاح الآن للمذاكرة...</p>`; 
+        }
+    }
+
+    function renderPretest() {
+        const area = document.getElementById('mainArea');
+        area.innerHTML = `
+            <h4 class="mb-4" style="color: #4a148c;">الاختبار القبلي للموديول</h4>
+            <div class="question-card"><p>1. هل تساعد بيئات التعلم الذكية في تخصيص التعلم؟</p>
+                <label><input type="radio" name="q1" value="1"> نعم</label><br>
+                <label><input type="radio" name="q1" value="0"> لا</label></div>
+            <div class="question-card"><p>2. من مهارات التعلم التوليدي التلخيص الذاتي للمحتوى.</p>
+                <label><input type="radio" name="q2" value="1"> عبارة صحيحة</label><br>
+                <label><input type="radio" name="q2" value="0"> عبارة خاطئة</label></div>
+            <div class="text-center mt-4"><button class="btn btn-submit" id="submitPretestBtn" onclick="finishPretest()">تسليم الإجابات</button></div>`;
+    }
+
+    async function finishPretest() {
+        const q1 = document.querySelector('input[name="q1"]:checked');
+        const q2 = document.querySelector('input[name="q2"]:checked');
+        if (!q1 || !q2) { alert("يرجى الإجابة على جميع الأسئلة"); return; }
+        
+        document.getElementById('submitPretestBtn').disabled = true;
+        let score = parseInt(q1.value) + parseInt(q2.value);
+        let sID = localStorage.getItem("studentID"); 
+
+        let studentData = JSON.parse(localStorage.getItem("studentData")) || { modulesData: Array(16).fill({preScore: null}) };
+        studentData.modulesData[currentModuleIndex].preScore = score;
+        localStorage.setItem("studentData", JSON.stringify(studentData));
+
+        hasTakenPretest = true;
+
+        document.getElementById('modalTitle').innerText = "تم التسليم بنجاح!";
+        document.getElementById('modalScoreText').innerText = score + " / 2";
+        new bootstrap.Modal(document.getElementById('scoreModal')).show();
+
+        document.getElementById('modalActionBtn').onclick = () => showTab('content', document.querySelector("a[onclick*='content']"));
+
+        try {
+            await fetch('http://localhost:3000/api/update-dashboard', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    studentID: sID, 
+                    updates: { moduleIndex: currentModuleIndex, modulePreScore: score } 
+                })
+            });
+        } catch (e) { console.error("Server update failed"); }
+    }
+
+    function renderPosttest() {
+        document.getElementById('mainArea').innerHTML = `
+            <h4 class="mb-4" style="color: #4a148c;">الاختبار البعدي للموديول</h4>
+            <div class="question-card"><p>1. الاختبار البعدي يقيس مدى تحقق الأهداف.</p>
+                <label><input type="radio" name="pq1" value="1"> نعم</label><br>
+                <label><input type="radio" name="pq1" value="0"> لا</label></div>
+            <div class="text-center mt-4"><button class="btn btn-submit" onclick="finishPosttest()">إنهاء الموديول</button></div>`;
+    }
+
+    async function finishPosttest() {
+        const q1 = document.querySelector('input[name="pq1"]:checked');
+        if (!q1) { alert("يرجى الإجابة"); return; }
+        let score = parseInt(q1.value);
+        let sID = localStorage.getItem("studentID");
+
+        document.getElementById('modalTitle').innerText = "مبروك الانتهاء!";
+        document.getElementById('modalScoreText').innerText = score + " / 1";
+        new bootstrap.Modal(document.getElementById('scoreModal')).show();
+
+        await fetch('http://localhost:3000/api/update-dashboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                studentID: sID, 
+                updates: { moduleIndex: currentModuleIndex, modulePostScore: score, progress: 6.25 } 
+            })
+        });
+    }
+
+    function toggleChat() {
+        const chat = document.getElementById('chatWin');
+        chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    async function sendChat() {
+        const input = document.getElementById('chatInput');
+        const msgs = document.getElementById('chatMsgs');
+        const text = input.value.trim();
+        if(!text) return;
+        msgs.innerHTML += `<div class="user-msg">${text}</div>`;
+        input.value = '';
+        msgs.scrollTop = msgs.scrollHeight;
+        try {
+            const res = await fetch('http://localhost:3000/api/chat-with-ai', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: text })
+            });
+            const data = await res.json();
+            msgs.innerHTML += `<div class="bot-msg">${data.reply}</div>`;
+        } catch (e) { msgs.innerHTML += `<div class="bot-msg">فشل الاتصال.</div>`; }
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+</script>
+</body>
+</html>

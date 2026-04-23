@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> الاختبار </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/main.css">
+</head>
+
+<body>
+    <header class="header font">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="logoutBtn">تسجيل خروج </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="call.html">اتصل بنا </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Help.html">المساعدة </a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Help.html">اثرائي </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false">القياس البعدي</a>
+                <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="scale.html"> مقياس الانخراط</a></li>
+                </ul>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false">المحتويات</a>
+                <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="First M.html">الموديول الأول </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="Second M.html"> الموديول الثاني</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                    aria-expanded="false">القياس القبلي</a>
+                <ul class="dropdown-menu sp2">
+                    <li><a class="dropdown-item" href="exam.html">الاختبار التحصيلي </a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="scale.html"> مقياس الانخراط</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Directions.html">التعليمات</a>
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Goals.html">الأهداف</a>
+            </li>
+            <li>
+                <a class="nav-link link-" href="digital_home.html">الرئيسة</a>
+
+            </li>
+        </ul>
+    </header>
+
+
+    <section class="Goals exam scale font">
+        <div class="container-sp sp5---">
+            <div class="row">
+                <div class="col-lg-9 Goals-sp">
+                    <h4 class="bold">تعليمات المقياس</h4>
+                    <h5 class="bold"> :عزيزي الطالب</h5>
+                    <h5>
+                        .يهدف هذا المقياس إلى تَّعرَف مستوى إلمامك بأبعاد  الانخراط في التعلم
+
+                        <p> :والمطلوب منك قراءة التعليمات التالية بعناية قبل أن تبدأ في الإجابة على المقياس
+                    </h5>
+                    </p>
+
+                    </h5>
+
+                    <ul type="none">
+                        <li>
+                            .اقرأ أبعاد وعبارات المقياس بدقة -
+                        </li>
+                        <li>
+                            .لا تترك أي عبارة دون الإجابة عنها - </li>
+                        <li>
+                            .قم باختيار الاختيار المناسب -
+                        <li>
+                            .بعد الانتهاء من الإجابة على كافة عبارات المقياس، انقر على المفتاح (سلمم الجميع وأنهي)
+                            للتسليم
+                            النهائي للمقياس -
+                        </li>
+                    </ul>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="https://forms.gle/Ue8ojBRRffbEHrV49" class="btn btn-primary bold" type="button">ابدأ
+                            المقياس</a>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <img src="pic/act.jpg" />
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script src="JS/bootstrap.bundle.min.js"></script>
+    <script src="JS/maiin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutBtn = document.getElementById("logoutBtn");
+            logoutBtn.addEventListener("click", function () {
+                localStorage.removeItem("loggedIn");
+                window.location.href = "index.html";
+            });
+        });
+    </script>
+</body>
+
+</html>

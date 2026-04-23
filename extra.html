@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>محتوى إثرائي</title>
+  <title>لينكات </title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6fc;
+      padding: 40px;
+    }
+
+    .enrichment-title {
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      width: fit-content;
+      transition: 0.3s;
+    }
+
+    .enrichment-title:hover {
+      background: #2f66e5;
+      color: white;
+    }
+
+    .enrichment-files {
+      display: none;
+      margin-top: 10px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      width: 300px;
+    }
+
+    .enrichment-files div {
+      padding: 8px;
+      cursor: pointer;
+      color: #2f66e5;
+      font-weight: 600;
+    }
+
+    .enrichment-files div:hover {
+      text-decoration: underline;
+    }
+
+    .file-viewer {
+      margin-top: 20px;
+      display: none;
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 10px;
+    }
+    .links-title {
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      width: fit-content;
+      transition: 0.3s;
+    }
+
+    .links-title:hover {
+      background: #2f66e5;
+      color: white;
+    }
+
+    .links-box {
+      display: none;
+      margin-top: 10px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      width: 250px;
+    }
+
+    .links-box a {
+      display: block;
+      padding: 8px 0;
+      color: #2f66e5;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .links-box a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- محتوى إثرائي -->
+  <div class="enrichment-title" onclick="toggleFiles()">
+    📂 محتوى إثرائي
+  </div>
+
+  <!-- قائمة الملفات -->
+  <div class="enrichment-files" id="filesBox">
+    <div onclick="openFile('files/file1.pdf')">📄 ملف PDF</div>
+    <div onclick="openFile('files/file2.pdf')">📄 ملف PDF</div>
+    <div onclick="openFile('files/file3.pdf')">📄 ملف PDF</div>
+</div>
+
+  <!-- مكان عرض الملف -->
+  <div class="file-viewer" id="viewer">
+    <iframe id="fileFrame"></iframe>
+  </div>
+
+  <!-- زرار لينكات -->
+  <div class="links-title" onclick="toggleLinks()">
+    🔗 لينكات
+  </div>
+
+  <!-- اللينكات -->
+  <div class="links-box" id="linksBox">
+    <a href="https://www.scribd.com/presentation/818925767/%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%D8%B9-%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%AF%D9%8A%D8%A9-2" target="_blank">لينك 1</a>
+    <a href="https://bakkah.com/ar/knowledge-center/%D9%85%D8%B1%D8%A7%D8%AD%D9%84-%D8%B9%D9%85%D9%84%D9%8A%D8%A9-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%8A%D8%B9" target="_blank">لينك 2</a>
+  </div>
+
+  <script>
+    function toggleFiles() {
+      const box = document.getElementById('filesBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function openFile(src) {
+      const viewer = document.getElementById('viewer');
+      const frame = document.getElementById('fileFrame');
+
+      frame.src = src;
+      viewer.style.display = 'block';
+    }
+
+    function toggleLinks() {
+      const box = document.getElementById('linksBox');
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+
+</body>
+</html>

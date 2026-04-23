@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> الموديول الثاني </title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to bottom right, #e0ecff, #d6d7f7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: end;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+      max-width: 1300px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      background-color: #f4f6fc;
+      padding: 20px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .back-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #d7def7;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .main-content {
+      display: flex;
+      gap: 20px;
+    }
+
+    .sidebar {
+      width: 30%;
+      background-color: #e5ecfb;
+      padding: 24px;
+      border-radius: 12px;
+      text-align: end;
+    }
+
+    .sidebar h2 {
+      font-size: 20px;
+      color: #1a3f9d;
+      margin-bottom: 24px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      background-color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .sidebar li.active,
+    .sidebar li:hover {
+      background-color: #2f66e5;
+      color: white;
+    }
+
+    .content {
+      width: 70%;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+    }
+
+    .content h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .text-box {
+      padding: 20px;
+      font-size: 18px;
+      line-height: 1.8;
+      background: #f4f6fc;
+      border-radius: 12px;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .navigation-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #d7def7;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+
+      .sidebar,
+      .content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="top-bar">
+      <button class="back-button" onclick="goBack()">العودة إلى الموديولات</button>
+    </div>
+
+    <div class="main-content">
+
+      <div class="content">
+        <h3 id="contentTitle"> مقدمة حول مهارات رواد مشاريع ريادة الأعمال</h3>
+
+        <div id="contentBox" class="text-box">
+تُعد مهارات رواد الأعمال حجر الأساس في نجاح المشاريع الريادية، إذ لا يعتمد المشروع الريادي على الفكرة وحدها، بل على قدرة رائد الأعمال على تحويل الفكرة إلى واقع عملي قابل للتنفيذ والتطوير. وتشمل هذه المهارات مجموعة من القدرات المعرفية والعملية والوجدانية، مثل: التخطيط، التفكير الابتكاري، اتخاذ القرار، إدارة الموارد، التواصل الفعال، وتوظيف التغذية الراجعة.
+وتزداد أهمية هذه المهارات في العصر الحديث نتيجة:
+•	تسارع التغيرات الاقتصادية والتقنية.
+•	شدة المنافسة.
+•	حاجة الأسواق إلى حلول مبتكرة ومستدامة.
+•	الانتقال من ثقافة الوظيفة إلى ثقافة المبادرة والريادة.
+        </div>
+
+        <div class="navigation-buttons">
+          <button onclick="navigate(1)">التالي</button>
+          <button onclick="navigate(-1)">السابق</button>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <h2> الموديول الثاني: تطوير المهارات اللازمة لإنتاج المشاريع الريادية </h2>
+
+        <ul id="contentList">
+          <li class="active" data-text="تُعد مهارات رواد الأعمال حجر الأساس في نجاح المشاريع الريادية، إذ لا يعتمد المشروع الريادي على الفكرة وحدها، بل على قدرة رائد الأعمال على تحويل الفكرة إلى واقع عملي قابل للتنفيذ والتطوير. وتشمل هذه المهارات مجموعة من القدرات المعرفية والعملية والوجدانية، مثل: التخطيط، التفكير الابتكاري، اتخاذ القرار، إدارة الموارد، التواصل الفعال، وتوظيف التغذية الراجعة.
+وتزداد أهمية هذه المهارات في العصر الحديث نتيجة:
+•	تسارع التغيرات الاقتصادية والتقنية.
+•	شدة المنافسة.
+•	حاجة الأسواق إلى حلول مبتكرة ومستدامة.
+•	الانتقال من ثقافة الوظيفة إلى ثقافة المبادرة والريادة.
+">
+            مقدمة حول مهارات رواد مشاريع ريادة الأعمال
+          </li>
+         
+          <li data-text="يُعد التخطيط المرحلة المحورية في بناء المشروع الريادي، حيث يتم فيه تحويل الفكرة إلى مشروع منظم قابل للتنفيذ. ويشمل التخطيط للمشروع الريادي:
+1-تحديد فكرة المشروع:
+•	اختيار فكرة مبتكرة تعالج مشكلة حقيقية.
+•	التأكد من وجود حاجة سوقية للفكرة.
+2-دراسة السوق:
+•	تحليل الفئة المستهدفة.
+•	دراسة المنافسين.
+•	تقدير حجم الطلب المتوقع.
+3-بناء نموذج العمل:
+•	تحديد القيمة المقترحة.
+•	تحديد مصادر الإيرادات.
+•	تحديد الموارد والشركاء الرئيسيين.
+4-إعداد الخطة التنفيذية:
+•	تحديد الأهداف.
+•	تحديد الجدول الزمني.
+•	توزيع الأدوار والمهام.
+5- التخطيط المالي:
+•	تقدير التكاليف.
+•	تحديد مصادر التمويل.
+•	توقع الإيرادات والأرباح.
+">
+            التخطيط للمشروع الريادي
+          </li>
+          <li data-text="الابتكار في المشاريع الريادية:
+الابتكار هو الروح المحركة للمشاريع الريادية، ويقصد به تقديم فكرة جديدة أو تحسين جوهري على منتج أو خدمة أو طريقة عمل قائمة. ويتجسد الابتكار في:
+•	ابتكار المنتج أو الخدمة.
+•	ابتكار طريقة التسويق.
+•	ابتكار نموذج العمل.
+
+2- اتخاذ القرار الريادي:
+يتطلب العمل الريادي اتخاذ قرارات في بيئة تتسم بعدم التأكد والمخاطرة، لذلك يجب أن يتصف رائد الأعمال بـ:
+•	القدرة على تحليل البدائل.
+•	تقدير المخاطر والعوائد.
+•	اختيار الحل الأنسب في الوقت المناسب.
+•	المرونة في تعديل القرار عند الحاجة.
+ويرتبط الابتكار ارتباطًا وثيقًا باتخاذ القرار، لأن القرارات الريادية غالبًا ما تكون قرارات غير تقليدية.
+">
+            الابتكار واتخاذ القرار
+          </li>
+          <li data-text="تُعد التغذية الراجعة أداة أساسية في تحسين جودة المشروع الريادي وتطويره بصورة مستمرة. ويقصد بها المعلومات التي يحصل عليها رائد الأعمال من:
+•	العملاء.
+•	الخبراء والموجهين.
+•	فريق العمل.
+•	نتائج التجربة الفعلية للمنتج أو الخدمة.
+أهمية التغذية الراجعة:
+•	اكتشاف نقاط القوة والضعف.
+•	تحسين المنتج أو الخدمة.
+•	تقليل الأخطاء قبل التوسع.
+•	رفع مستوى رضا العملاء.
+آليات توظيف التغذية الراجعة:
+•	اختبار النموذج الأولي (Prototype).
+•	إجراء استطلاعات وآراء المستخدمين.
+•	تحليل الشكاوى والملاحظات.
+•	إدخال التحسينات والتعديلات بشكل دوري.
+">
+            توظيف التغذية الراجعة وتطوير المشروع
+          </li>
+          <li data-text="يُعد عرض المشروع (Pitching) من المهارات الحاسمة لنجاح المشروع الريادي، سواء لعرضه على:
+•	المستثمرين.
+•	الشركاء.
+•	الجهات الداعمة.
+•	العملاء المحتملين.
+عناصر العرض الناجح:
+•	تعريف المشكلة التي يعالجها المشروع.
+•	تقديم الحل المقترح بصورة واضحة.
+•	شرح المنتج أو الخدمة.
+•	توضيح الميزة التنافسية.
+•	عرض نموذج العمل والإيرادات.
+•	تقديم خطة التنفيذ.
+•	توضيح الاحتياجات التمويلية (إن وجدت).
+خصائص العرض الجيد:
+•	الوضوح والإقناع.
+•	الاختصار غير المخل.
+•	استخدام وسائل بصرية داعمة.
+•	الثقة في التقديم.
+">
+            عرض المشروع الريادي
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const listItems = document.querySelectorAll('#contentList li');
+    const contentBox = document.getElementById('contentBox');
+    const contentTitle = document.getElementById('contentTitle');
+    let currentIndex = 0;
+
+    listItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        updateContent(index);
+      });
+    });
+
+    function updateContent(index) {
+      listItems[currentIndex].classList.remove('active');
+      currentIndex = index;
+      listItems[currentIndex].classList.add('active');
+
+      const selected = listItems[currentIndex];
+      contentTitle.textContent = selected.textContent;
+      contentBox.textContent = selected.getAttribute('data-text');
+    }
+
+    function navigate(direction) {
+      let newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < listItems.length) {
+        updateContent(newIndex);
+      }
+    }
+
+    function goBack() {
+      window.location.href = 'm2-content.html';
+    }
+  </script>
+
+</body>
+</html>

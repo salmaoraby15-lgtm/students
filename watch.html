@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تتبع الساعة الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+
+    <style>
+        /* منع السكرول نهائياً وتثبيت العناصر */
+        html, body { 
+            height: 100%; margin: 0; padding: 0; 
+            overflow: hidden !important; 
+            background-color: #f0f2f5; 
+            font-family: 'Tajawal', sans-serif; 
+        }
+
+        /* نافبار علوي بسيط يحتوي فقط على زر العودة */
+        .top-bar { 
+            background: #4a148c; 
+            height: 70px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 30px; 
+            color: white; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-back { 
+            background: rgba(255,255,255,0.2); 
+            color: white; 
+            border: 1px solid rgba(255,255,255,0.4); 
+            padding: 8px 20px; 
+            border-radius: 25px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        .btn-back:hover { background: white; color: #4a148c; }
+
+        /* حاوية البيانات الوسطى */
+        .dashboard-wrapper {
+            height: calc(100vh - 70px); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px;
+        }
+
+        .content-box { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 1000px; 
+            border-top: 8px solid #4a148c;
+        }
+
+        /* كروت المؤشرات */
+        .vital-card { 
+            border: none; 
+            border-radius: 15px; 
+            background: #f8f9fa; 
+            padding: 25px; 
+            transition: 0.3s; 
+        }
+        .vital-card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .vital-value { font-size: 3rem; font-weight: bold; color: #4a148c; margin: 10px 0; }
+        .vital-label { font-size: 1.1rem; color: #666; font-weight: bold; }
+
+        .alert-status {
+            background: #f3e5f5; 
+            border-right: 5px solid #4a148c; 
+            border-radius: 10px; 
+            padding: 15px; 
+            margin-top: 30px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <h4 class="m-0"><i class="fas fa-microchip me-2"></i> نظام تتبع المؤشرات الحيوية</h4>
+        <a href="digital_home.html" class="btn-back">
+            <i class="fas fa-home me-1"></i> العودة للرئيسية
+        </a>
+    </div>
+
+    <div class="dashboard-wrapper">
+        <div class="content-box">
+            <div class="text-center mb-5">
+                <h3 style="color: #4a148c;">بيانات الطالب اللحظية</h3>
+                <p class="text-muted">يتم تحديث البيانات تلقائياً من الساعة الذكية</p>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-md-4 mb-3">
+                    <div class="vital-card">
+                        <i class="fas fa-heartbeat fa-3x" style="color: #ff5252;"></i>
+                        <div class="vital-label mt-3">نبض القلب</div>
+                        <div class="vital-value" id="hrValue">75</div>
+                        <span class="badge bg-danger">BPM</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="vital-card">
+                        <i class="fas fa-brain fa-3x" style="color: #ffb142;"></i>
+                        <div class="vital-label mt-3">مستوى التوتر</div>
+                        <div class="vital-value" id="stressValue">24</div>
+                        <span class="badge bg-warning text-dark">نقطة</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <div class="vital-card">
+                        <i class="fas fa-fire fa-3x" style="color: #2ecc71;"></i>
+                        <div class="vital-label mt-3">النشاط البدني</div>
+                        <div class="vital-value" id="calValue">180</div>
+                        <span class="badge bg-success">Kcal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-status">
+                <i class="fas fa-robot me-2" style="color: #4a148c;"></i>
+                <strong>حالة النظام:</strong> <span id="statusText">جاري الاتصال بالساعة.. المؤشرات مستقرة.</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // محاكاة لتغيير البيانات لجعل العرض يبدو حقيقياً
+        function startVitalsUpdate() {
+            setInterval(() => {
+                const hr = Math.floor(Math.random() * (88 - 70 + 1)) + 70;
+                const stress = Math.floor(Math.random() * (45 - 15 + 1)) + 15;
+                const cal = parseInt(document.getElementById('calValue').innerText) + 1;
+
+                document.getElementById('hrValue').innerText = hr;
+                document.getElementById('stressValue').innerText = stress;
+                document.getElementById('calValue').innerText = cal;
+
+                if (hr > 85) {
+                    document.getElementById('statusText').innerText = "تم رصد ارتفاع بسيط في نبضات القلب، يُنصح بالهدوء.";
+                } else {
+                    document.getElementById('statusText').innerText = "المؤشرات الحيوية للطالب في النطاق الطبيعي للتعلم.";
+                }
+            }, 3000);
+        }
+
+        // بدء المحاكاة عند تحميل الصفحة
+        window.onload = startVitalsUpdate;
+    </script>
+
+</body>
+</html>

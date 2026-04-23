@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيئة التعلم الذكية - لوحة المتعلم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    
+    <style>
+        :root { --main-color: #4a148c; --bg-color: #f8f9fa; }
+        body { height: 100vh; overflow: hidden; display: flex; flex-direction: column; background-color: var(--bg-color); font-family: 'Tajawal', sans-serif; transition: 0.3s; }
+
+        /* الهيدر */
+        .smart-header { background: var(--main-color); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .overall-progress { display: flex; align-items: center; gap: 15px; }
+        .p-bar-bg { width: 180px; background: rgba(255,255,255,0.2); height: 8px; border-radius: 10px; }
+        .p-bar-fill { background: #fff; height: 100%; width: 0%; border-radius: 10px; transition: 1s; }
+
+        /* زر الرجوع */
+        .back-btn {
+            background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 15px; border-radius: 8px; text-decoration: none; font-size: 13px;
+            transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .back-btn:hover { background: white; color: var(--main-color); border-color: white; }
+
+        .dashboard-wrapper { display: grid; grid-template-columns: 260px 1fr; gap: 20px; padding: 20px; flex-grow: 1; max-height: calc(100vh - 65px); }
+
+        /* القائمة الجانبية */
+        .sidebar { background: white; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .section-label { font-weight: bold; font-size: 14px; margin-bottom: 15px; display: block; border-right: 3px solid var(--main-color); padding-right: 10px; }
+
+        .color-dots-vertical { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+        .color-circle { width: 35px; height: 35px; border-radius: 50%; cursor: pointer; border: 3px solid #fff; box-shadow: 0 0 8px rgba(0,0,0,0.1); transition: 0.2s; }
+        .color-circle:hover { transform: scale(1.1); }
+        .layout-stack { display: flex; flex-direction: column; gap: 10px; }
+        .layout-btn { background: #fdfbff; border: 1px solid #eee; padding: 10px; border-radius: 10px; cursor: pointer; text-align: center; font-size: 13px; color: #666; transition: 0.3s; }
+        .layout-btn.active { background: var(--main-color); color: white; border-color: var(--main-color); }
+
+        /* الموديولات */
+        .content-area { overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; padding-left: 10px; }
+        .module-card { background: white; border-radius: 15px; padding: 15px; border-top: 4px solid var(--main-color); box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.3s; }
+        .module-card:hover { transform: translateY(-5px); }
+        .module-title { font-weight: bold; font-size: 14px; color: var(--main-color); margin-bottom: 10px; display: block; }
+        .mod-details { font-size: 12px; color: #555; background: #f9f9f9; padding: 10px; border-radius: 10px; margin-top: 10px; }
+        .stat-line { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dashed #ddd; padding-bottom: 3px; }
+        .list-view { grid-template-columns: 1fr !important; }
+    </style>
+</head>
+<body>
+
+    <header class="smart-header">
+        <div class="d-flex align-items-center gap-3">
+            <a href="digital_home.html" class="back-btn"><i class="fa fa-home"></i> العودة للرئيسة</a>
+            <div class="overall-progress d-none d-md-flex">
+                <span class="small fw-bold">التقدم العام:</span>
+                <div class="p-bar-bg"><div class="p-bar-fill" id="overallFill"></div></div>
+                <span id="overallTxt" class="small">0%</span>
+            </div>
+        </div>
+        <div class="fw-bold"><i class="fa fa-user-graduate me-2"></i> <span id="sName">جاري التحميل...</span></div>
+    </header>
+
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div>
+                <span class="section-label">نمط الألوان</span>
+                <div class="color-dots-vertical">
+                    <div class="color-circle" style="background: #4a148c;" onclick="setTheme('#4a148c')"></div>
+                    <div class="color-circle" style="background: #00695c;" onclick="setTheme('#00695c')"></div>
+                    <div class="color-circle" style="background: #1a237e;" onclick="setTheme('#1a237e')"></div>
+                    <div class="color-circle" style="background: #37474f;" onclick="setTheme('#37474f')"></div>
+                </div>
+            </div>
+            <div>
+                <span class="section-label">عرض الشاشة</span>
+                <div class="layout-stack">
+                    <div id="gridBtn" class="layout-btn active" onclick="setLayout('grid')"><i class="fa fa-th"></i> شبكة</div>
+                    <div id="listBtn" class="layout-btn" onclick="setLayout('list')"><i class="fa fa-bars"></i> قائمة</div>
+                </div>
+            </div>
+            <div class="mod-details" style="margin-top: auto;">
+                <span class="section-label">الدرجات العامة</span>
+                <div class="stat-line"><span>الاختبار القبلي:</span> <b id="preTotal">0</b></div>
+                <div class="stat-line"><span>الاختبار البعدي:</span> <b id="postTotal">0</b></div>
+                <div class="stat-line"><span>مقياس الذات الإبداعية (قبلي):</span> <b id="creativityPre">0</b></div>
+<div class="stat-line"><span>مقياس الذات الإبداعية (بعدي):</span> <b id="creativityPost">0</b></div>
+
+<div class="stat-line"><span>مقياس النهوض الأكاديمي (قبلي):</span> <b id="risePre">0</b></div>
+<div class="stat-line"><span>مقياس النهوض الأكاديمي (بعدي):</span> <b id="risePost">0</b></div>
+            </div>
+        </aside>
+        <main class="content-area" id="modulesWrapper"></main>
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('modulesWrapper');
+        
+        // 1. توليد الـ 16 موديول (تأكدي أن الـ IDs تطابق ما سيتم تحديثه)
+        for (let i = 1; i <= 16; i++) {
+            wrapper.innerHTML += `
+                <div class="module-card">
+                    <span class="module-title">الموديول التعليمي رقم (${i})</span>
+                    <div class="progress" style="height: 8px; background: #eee; border-radius: 10px;">
+                        <div class="progress-bar" id="prog-m${i}" style="width: 0%; background: var(--main-color); border-radius: 10px; transition: 1s;"></div>
+                    </div>
+                    <div class="mod-details">
+                        <div class="stat-line"><span>درجة القبلي:</span> <b id="pre-m${i}">--</b></div>
+                        <div class="stat-line"><span>درجة البعدي:</span> <b id="post-m${i}">--</b></div>
+                        <div class="stat-line"><span>تسليم النشاط:</span> <span id="act-m${i}"><i class="fa fa-clock text-warning"></i> معلق</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setTheme(color) {
+            document.documentElement.style.setProperty('--main-color', color);
+            localStorage.setItem('userTheme', color);
+        }
+
+        function setLayout(type) {
+            if(type === 'list') {
+                wrapper.classList.add('list-view');
+                document.getElementById('listBtn').classList.add('active');
+                document.getElementById('gridBtn').classList.remove('active');
+            } else {
+                wrapper.classList.remove('list-view');
+                document.getElementById('gridBtn').classList.add('active');
+                document.getElementById('listBtn').classList.remove('active');
+            }
+        }
+
+        // --- التعديل الجوهري للربط مع السيرفر ---
+        document.addEventListener("DOMContentLoaded", async function() {
+            const sID = localStorage.getItem("studentID");
+            const sNameLocal = localStorage.getItem("studentName");
+            const savedColor = localStorage.getItem('userTheme');
+            
+            if (savedColor) setTheme(savedColor);
+            if (sNameLocal) document.getElementById('sName').innerText = sNameLocal;
+
+            if (!sID) return;
+
+            try {
+                const res = await fetch(`http://localhost:3000/api/student-data/${sID}`);
+                const student = await res.json();
+                
+                if (student) {
+                    // 1. تحديث البيانات العامة (الهيدر والسايدبار)
+                    document.getElementById('sName').innerText = student.name || sNameLocal;
+                    document.getElementById('preTotal').innerText = student.preTestScore || 0;
+                    document.getElementById('postTotal').innerText = student.postTestScore || 0;
+                    document.getElementById('creativityPre').innerText = student.preCreativityScale || 0;
+                    document.getElementById('creativityPost').innerText = student.postCreativityScale || 0;
+                    document.getElementById('risePre').innerText = student.preAcademicRiseScale || 0;
+                    document.getElementById('risePost').innerText = student.postAcademicRiseScale || 0;
+                    
+                    const progress = student.progress || 0;
+                    document.getElementById('overallFill').style.width = progress + '%';
+                    document.getElementById('overallTxt').innerText = progress + '%';
+
+                    // 2. تحديث كروت الموديولات الـ 16 من مصفوفة modulesData
+                    if (student.modulesData && Array.isArray(student.modulesData)) {
+                        student.modulesData.forEach((mod, index) => {
+                            const mNum = index + 1; // لأن المصفوفة تبدأ من 0 والموديولات من 1
+                            
+                            // تحديث درجة القبلي في الكارت الخاص بالموديول
+                            const preElem = document.getElementById(`pre-m${mNum}`);
+                            if(preElem) preElem.innerText = (mod.preScore !== undefined) ? mod.preScore : "--";
+                            
+                            // تحديث درجة البعدي في الكارت
+                            const postElem = document.getElementById(`post-m${mNum}`);
+                            if(postElem) postElem.innerText = (mod.postScore !== undefined) ? mod.postScore : "--";
+                            
+                            // تحديث شريط تقدم الموديول الفردي
+                            const progBar = document.getElementById(`prog-m${mNum}`);
+                            if(progBar) progBar.style.width = (mod.moduleProgress || 0) + '%';
+                            
+                            // تحديث حالة النشاط
+                            const actStatus = document.getElementById(`act-m${mNum}`);
+                            if (actStatus && mod.activityDone) {
+                                actStatus.innerHTML = '<i class="fa fa-check-circle text-success"></i> مكتمل';
+                            }
+                        });
+                    }
+                }
+            } catch(e) { 
+                console.error("خطأ في الاتصال بالسيرفر:", e);
+                // في حالة الفشل، يمكن عرض تنبيه بسيط للمستخدم أو ترك القيم الافتراضية
+            }
+        });
+    </script>
+</body>
+</html>
